@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Firebase-Blog</string>
+    <string name="btn_email_authentication">Email Authentication</string>
+    <string name="header_login">Login</string>
+    <string name="header_signup">Signup</string>
+    <string name="btn_login">Login</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="signup_prompt">Don\'t have an account? Signup.</string>
+    <string name="btn_signup">Signup</string>
+    <string name="login_prompt">Already have an account? Login.</string>
 </resources>

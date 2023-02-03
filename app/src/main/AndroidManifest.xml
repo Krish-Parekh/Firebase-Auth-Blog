@@ -12,13 +12,13 @@
         android:theme="@style/Theme.FirebaseBlog"
         tools:targetApi="31">
         <activity
-            android:name=".ui.email_authentication.HomeActivity"
+            android:name=".ui.email_authentication.EmailHomeActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.email_authentication.SignupActivity"
+            android:name=".ui.email_authentication.EmailSignupActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.email_authentication.LoginActivity"
+            android:name=".ui.email_authentication.EmailLoginActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
