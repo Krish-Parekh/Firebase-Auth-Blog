@@ -12,6 +12,9 @@
         android:theme="@style/Theme.FirebaseBlog"
         tools:targetApi="31">
         <activity
+            android:name=".ui.email_authentication.EmailForgotPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.email_authentication.EmailHomeActivity"
             android:exported="false" />
         <activity

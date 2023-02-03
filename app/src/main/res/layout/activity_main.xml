@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".MainActivity">
@@ -13,6 +14,7 @@
         android:id="@+id/btnEmailAuth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/btn_email_auth"
         android:paddingVertical="8dp"
         android:text="@string/btn_email_authentication"
         android:textAllCaps="false"

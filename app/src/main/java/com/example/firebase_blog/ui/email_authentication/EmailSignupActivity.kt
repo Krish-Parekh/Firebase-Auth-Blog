@@ -10,5 +10,12 @@ class EmailSignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEmailSignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setupUI()
+    }
+
+    private fun setupUI() {
+        binding.ctaLogin.setOnClickListener {
+            finish()
+        }
     }
 }

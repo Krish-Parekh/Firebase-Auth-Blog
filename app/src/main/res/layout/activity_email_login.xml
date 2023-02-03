@@ -52,6 +52,15 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/ctaForgotPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
+        android:text="@string/forgot_password_prompt"
+        android:textAlignment="textEnd"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
