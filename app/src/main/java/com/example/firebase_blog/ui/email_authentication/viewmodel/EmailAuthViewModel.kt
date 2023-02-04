@@ -9,27 +9,42 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+data class LoginUiState(
+    val userId: String,
+    val username: String,
+    val email: String,
+)
+
 class EmailAuthViewModel : ViewModel() {
 
     private val mAuth: FirebaseAuth by lazy { Firebase.auth }
 
-    private val _loginState = MutableLiveData<Resource<String>>()
-    val loginState: LiveData<Resource<String>> = _loginState
+    private val _loginStatus = MutableLiveData<Resource<LoginUiState>>()
+    val loginStatus: LiveData<Resource<LoginUiState>> = _loginStatus
 
-    private val _signupState = MutableLiveData<Resource<String>>()
-    val signupState: LiveData<Resource<String>> = _signupState
+    private val _signupStatus = MutableLiveData<Resource<String>>()
+    val signupStatus: LiveData<Resource<String>> = _signupStatus
 
-    private val _resetPasswordState = MutableLiveData<Resource<String>>()
-    val resetPasswordState: LiveData<Resource<String>> = _resetPasswordState
+    private val _resetPasswordStatus = MutableLiveData<Resource<String>>()
+    val resetPasswordStatus: LiveData<Resource<String>> = _resetPasswordStatus
+
+    private val _deleteAccountStatus = MutableLiveData<Resource<String>>()
+    val deleteAccountStatus: LiveData<Resource<String>> = _deleteAccountStatus
 
     fun login(email: String, password: String) {
-        _loginState.postValue(Resource.loading())
+        _loginStatus.postValue(Resource.loading())
         mAuth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                _loginState.postValue(Resource.success("Login success."))
+                val user = mAuth.currentUser!!
+                val loginUiState = LoginUiState(
+                    userId = user.uid,
+                    username = user.displayName!!,
+                    email = user.email!!
+                )
+                _loginStatus.postValue(Resource.success(loginUiState))
             }
             .addOnFailureListener { exception ->
-                _loginState.postValue(Resource.error("Login failed : ${exception.message}"))
+                _loginStatus.postValue(Resource.error("Login failed : ${exception.message}"))
             }
     }
 
@@ -38,7 +53,7 @@ class EmailAuthViewModel : ViewModel() {
         email: String,
         password: String
     ) {
-        _loginState.postValue(Resource.loading())
+        _signupStatus.postValue(Resource.loading())
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 val user = mAuth.currentUser!!
@@ -46,25 +61,39 @@ class EmailAuthViewModel : ViewModel() {
                 val profile = profileBuilder.setDisplayName(username).build()
                 user.updateProfile(profile)
                     .addOnSuccessListener {
-                        _loginState.postValue(Resource.success("Signup success."))
+                        _signupStatus.postValue(Resource.success("Signup success."))
                     }
                     .addOnFailureListener { exception ->
-                        _loginState.postValue(Resource.error("Signup failed : ${exception.message}"))
+                        _signupStatus.postValue(Resource.error("Signup failed : ${exception.message}"))
                     }
             }
             .addOnFailureListener { exception ->
-                _loginState.postValue(Resource.error("Signup failed : ${exception.message}"))
+                _signupStatus.postValue(Resource.error("Signup failed : ${exception.message}"))
             }
     }
 
     fun resetPassword(email: String) {
-        _resetPasswordState.postValue(Resource.loading())
+        _resetPasswordStatus.postValue(Resource.loading())
         mAuth.sendPasswordResetEmail(email)
             .addOnSuccessListener {
-                _resetPasswordState.postValue(Resource.success("Resent email sent."))
+                _resetPasswordStatus.postValue(Resource.success("Resent email sent."))
             }
             .addOnFailureListener { exception ->
-                _resetPasswordState.postValue(Resource.error("Resent email failed : ${exception.message}"))
+                _resetPasswordStatus.postValue(Resource.error("Resent email failed : ${exception.message}"))
+            }
+    }
+
+    fun signOut() = mAuth.signOut()
+
+    fun deleteAccount() {
+        _deleteAccountStatus.postValue(Resource.loading())
+        val user = mAuth.currentUser!!
+        user.delete()
+            .addOnSuccessListener {
+                _deleteAccountStatus.postValue(Resource.success("Delete account success."))
+            }
+            .addOnFailureListener { exception ->
+                _deleteAccountStatus.postValue(Resource.error("Delete account failed : ${exception.message}"))
             }
     }
 }

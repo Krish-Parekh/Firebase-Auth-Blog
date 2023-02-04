@@ -13,4 +13,10 @@
     <string name="forgot_password_prompt">Forgot Password ?</string>
     <string name="btn_send_email">Send Email</string>
     <string name="header_forgot_password">Forgot Password</string>
+    <string name="btn_logout">Logout</string>
+    <string name="btn_delete_account">Delete Account</string>
+    <string name="label_email">Email : </string>
+    <string name="label_username">Username : </string>
+    <string name="label_id">Id : </string>
+    <string name="label_loading">Loading...</string>
 </resources>

@@ -32,6 +32,33 @@ class InputValidation {
         }
 
         /**
+         * The function isUsernameValid checks if the provided username is valid based on the following constraints:
+         * 1. The username cannot be empty.
+         * 2. The length of the username cannot be more than 100 characters.
+         * 3. The username cannot start with a number.
+         * 4. The username can only contain alphabets and numbers.
+         *
+         * @param username The username string to be validated.
+         * @return A pair of Boolean and String where the Boolean indicates if the username is valid or not,
+         * and the String provides a message indicating why the username is not valid if the Boolean is false.
+         */
+        fun isUsernameValid(username: String): Pair<Boolean, String> {
+            if (username.isEmpty()) {
+                return Pair(false, "Username cannot be empty.")
+            }
+            if (username.length > 100) {
+                return Pair(false, "Username cannot be more than 100 characters.")
+            }
+            if (username[0].isDigit()) {
+                return Pair(false, "Username cannot start with a number.")
+            }
+            if (username.matches("^[a-zA-Z0-9 ]+$".toRegex()).not()) {
+                return Pair(false, "Username can only contain alphabets and numbers.")
+            }
+            return Pair(true, "")
+        }
+
+        /**
          * isEmailValid is a function that validates an email address.
          *
          * @param email: The email address to be validated.
