@@ -3,18 +3,23 @@ package com.example.firebase_blog.ui.email_authentication
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.firebase_blog.databinding.ActivityEmailHomeBinding
 import com.example.firebase_blog.ui.email_authentication.viewmodel.EmailAuthViewModel
+import com.example.firebase_blog.util.LoadingDialog
+import com.example.firebase_blog.util.Status.*
 
 class EmailHomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEmailHomeBinding
     private val emailAuthViewModel by viewModels<EmailAuthViewModel>()
+    private val loadingDialog by lazy { LoadingDialog(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEmailHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupUI()
+        setupObserver()
     }
 
     private fun setupUI() {
@@ -35,6 +40,27 @@ class EmailHomeActivity : AppCompatActivity() {
         binding.btnDeleteAccount.setOnClickListener {
             emailAuthViewModel.deleteAccount()
             navigateToLogin()
+        }
+    }
+    private fun setupObserver() {
+        emailAuthViewModel.deleteAccountStatus.observe(this){ delete ->
+            when(delete.status){
+                LOADING -> {
+                    loadingDialog.show()
+                }
+                SUCCESS -> {
+                    loadingDialog.dismiss()
+                    val state = delete.data!!
+                    Toast.makeText(this, state, Toast.LENGTH_SHORT).show()
+                    navigateToLogin()
+                }
+                ERROR -> {
+                    loadingDialog.dismiss()
+                    val error = delete.message!!
+                    Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+                }
+            }
+
         }
     }
 

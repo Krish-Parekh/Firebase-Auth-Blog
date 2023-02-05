@@ -3,11 +3,15 @@ package com.example.firebase_blog.ui.email_authentication.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.firebase_blog.util.Resource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 data class LoginUiState(
     val userId: String,
@@ -32,9 +36,10 @@ class EmailAuthViewModel : ViewModel() {
     val deleteAccountStatus: LiveData<Resource<String>> = _deleteAccountStatus
 
     fun login(email: String, password: String) {
-        _loginStatus.postValue(Resource.loading())
-        mAuth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
+        viewModelScope.launch(IO) {
+            try {
+                _loginStatus.postValue(Resource.loading())
+                mAuth.signInWithEmailAndPassword(email, password).await()
                 val user = mAuth.currentUser!!
                 val loginUiState = LoginUiState(
                     userId = user.uid,
@@ -42,10 +47,11 @@ class EmailAuthViewModel : ViewModel() {
                     email = user.email!!
                 )
                 _loginStatus.postValue(Resource.success(loginUiState))
-            }
-            .addOnFailureListener { exception ->
+
+            } catch (exception: Exception) {
                 _loginStatus.postValue(Resource.error("Login failed : ${exception.message}"))
             }
+        }
     }
 
     fun signup(
@@ -53,47 +59,45 @@ class EmailAuthViewModel : ViewModel() {
         email: String,
         password: String
     ) {
-        _signupStatus.postValue(Resource.loading())
-        mAuth.createUserWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
+        viewModelScope.launch(IO) {
+            try {
+                _signupStatus.postValue(Resource.loading())
+                mAuth.createUserWithEmailAndPassword(email, password)
                 val user = mAuth.currentUser!!
                 val profileBuilder = UserProfileChangeRequest.Builder()
                 val profile = profileBuilder.setDisplayName(username).build()
-                user.updateProfile(profile)
-                    .addOnSuccessListener {
-                        _signupStatus.postValue(Resource.success("Signup success."))
-                    }
-                    .addOnFailureListener { exception ->
-                        _signupStatus.postValue(Resource.error("Signup failed : ${exception.message}"))
-                    }
-            }
-            .addOnFailureListener { exception ->
+                user.updateProfile(profile).await()
+                _signupStatus.postValue(Resource.success("Signup success."))
+            } catch (exception: Exception) {
                 _signupStatus.postValue(Resource.error("Signup failed : ${exception.message}"))
             }
+        }
     }
 
     fun resetPassword(email: String) {
-        _resetPasswordStatus.postValue(Resource.loading())
-        mAuth.sendPasswordResetEmail(email)
-            .addOnSuccessListener {
+        viewModelScope.launch(IO) {
+            try {
+                _resetPasswordStatus.postValue(Resource.loading())
+                mAuth.sendPasswordResetEmail(email).await()
                 _resetPasswordStatus.postValue(Resource.success("Resent email sent."))
-            }
-            .addOnFailureListener { exception ->
+            } catch (exception: Exception) {
                 _resetPasswordStatus.postValue(Resource.error("Resent email failed : ${exception.message}"))
             }
+        }
     }
 
     fun signOut() = mAuth.signOut()
 
     fun deleteAccount() {
-        _deleteAccountStatus.postValue(Resource.loading())
-        val user = mAuth.currentUser!!
-        user.delete()
-            .addOnSuccessListener {
+        viewModelScope.launch(IO) {
+            try {
+                _deleteAccountStatus.postValue(Resource.loading())
+                val user = mAuth.currentUser!!
+                user.delete().await()
                 _deleteAccountStatus.postValue(Resource.success("Delete account success."))
-            }
-            .addOnFailureListener { exception ->
+            } catch (exception: Exception) {
                 _deleteAccountStatus.postValue(Resource.error("Delete account failed : ${exception.message}"))
             }
+        }
     }
 }
