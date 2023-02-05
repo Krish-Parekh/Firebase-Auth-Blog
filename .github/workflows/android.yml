@@ -55,11 +55,11 @@ jobs:
     - name: Execute instrumentation tests
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        api-level: 28
+        api-level: 29
         script: ./gradlew connectedCheck
 
     - name: Save Instrumented Test Report
       uses: actions/upload-artifact@v1
       with:
         name: instrumented-test-result
-        path: app/build/reports
+        path: app/build/reports/androidTests/connected/
