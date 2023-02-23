@@ -28,9 +28,11 @@ git clone https://github.com/Krish-Parekh/Firebase-Auth-Blog.git
     <td align="center">Firebase Email/Password Authentication: An In-Depth Guide for Android Developers using Kotlin</td>
   </tr>
 </table>
-1. Introduction to Firebase Authentication in Android
-2. Setting up Firebase in an Android App
-3. Implementing Email and Password Authentication in Android
+<ol>
+  <li> Introduction to Firebase Authentication in Android </li>
+  <li> Setting up Firebase in an Android App </li>
+  <li> Implementing Email and Password Authentication in Android </li>
+</ol>
 
 # Contributing
 If you want to contribute to this project, please fork the repository and create a pull request with your changes.
