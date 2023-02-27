@@ -18,5 +18,12 @@
     <string name="label_email">Email : </string>
     <string name="label_username">Username : </string>
     <string name="label_id">Id : </string>
-    <string name="label_loading">Loading...</string>
+    <string name="label_loading">Loading &#8230;</string>
+    <string name="hint_phone">Phone</string>
+    <string name="btn_phone_authentication">Phone Authentication</string>
+    <string name="header_phone_number">OTP Verification</string>
+    <string name="sub_header_phone_number">We will send you a one-time password to this mobile number</string>
+    <string name="sub_header_verify_otp">Enter the OTP sent to %s</string>
+    <string name="btn_get_otp">Get OTP</string>
+    <string name="btn_verify_otp">Verify OTP</string>
 </resources>

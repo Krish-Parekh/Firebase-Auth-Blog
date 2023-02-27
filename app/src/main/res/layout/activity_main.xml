@@ -21,5 +21,16 @@
         app:icon="@drawable/ic_email"
         app:iconGravity="textStart" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnPhoneAuth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/btn_phone_auth"
+        android:paddingVertical="8dp"
+        android:text="@string/btn_phone_authentication"
+        android:textAllCaps="false"
+        app:icon="@drawable/ic_phone"
+        app:iconGravity="textStart" />
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>

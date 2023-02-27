@@ -54,6 +54,7 @@ dependencies {
 
     // Firebase Authentication Dependency
     implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
+    implementation 'com.google.android.gms:play-services-safetynet:18.0.1'
 
     // Lifecycle Dependencies
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"

@@ -1,7 +1,5 @@
 package com.example.firebase_blog.util
 
-import java.util.regex.Pattern
-
 /**
  * InputValidation is a class that contains functions for validating user inputs such as email and password.
  */
@@ -89,6 +87,26 @@ class InputValidation {
             }
             if (PASSWORD_PATTERN.toRegex().matches(password).not()) {
                 return Pair(false, "Password is not valid.")
+            }
+            return Pair(true, "")
+        }
+
+        fun isPhoneNumberValid(phoneNumber: String): Pair<Boolean, String> {
+            if (phoneNumber.isEmpty()) {
+                return Pair(false, "Mobile number cannot be empty.")
+            }
+            if (phoneNumber.length != 10) {
+                return Pair(false, "Mobile number must be 10 characters.")
+            }
+            if (phoneNumber.substring(0, 3).equals("000")) {
+                return Pair(false, "Mobile number cannot start with 000.")
+            }
+            val firstDigit = phoneNumber[0]
+            if (phoneNumber.slice(0..9).all { it == firstDigit }) {
+                return Pair(false, "All the digits in mobile number cannot be same.")
+            }
+            if (phoneNumber.matches("^[0-9]+$".toRegex()).not()) {
+                return Pair(false, "Mobile number can only contain digits.")
             }
             return Pair(true, "")
         }

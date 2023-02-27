@@ -8,6 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="orange">#dd493d</color>
+    <color name="gray">#808080</color>
+    <color name="light_gray">#F0EEED</color>
 
     <color name="btn_email_auth">@color/orange</color>
+    <color name="btn_phone_auth">@color/gray</color>
 </resources>
